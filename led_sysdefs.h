@@ -27,7 +27,7 @@
 #include "platforms/esp/8266/led_sysdefs_esp8266.h"
 #else
 // AVR platforms
-#include "platforms/avr/led_sysdefs_avr.h"
+//#include "platforms/avr/led_sysdefs_avr.h"
 #endif
 
 #ifndef FASTLED_NAMESPACE_BEGIN
