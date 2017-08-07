@@ -130,8 +130,8 @@ public:
         d = *FastPin<CLOCK_PIN>::port();
         d &= ~REVC_PORT_MASK;
         d |= (b.bytes[i] & 31) << 3;
-        d |= ((uint32_t)(b.bytes[i] & 224)) << 13;
-        FastPin<CLOCK_PIN>::set(d);
+        d |= ((b.bytes[i] & 224) >> 5) << 13;
+        FastPin<CLOCK_PIN>::fastset(FastPin<CLOCK_PIN>::port(), d);
         FastPin<CLOCK_PIN>::hi(); CLOCK_HI_DELAY;
         FastPin<CLOCK_PIN>::lo(); CLOCK_LO_DELAY;
       }
