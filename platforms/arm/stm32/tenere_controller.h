@@ -73,17 +73,18 @@ public:
       transpose8x1(b.bytes,b2.bytes);
       writeByte(b2);
 
-      int nDWords = (pixels.size()/32); 
-      do { 
-          writeByte(0xFF); 
-          writeByte(0x00); 
-          writeByte(0x00); 
-          writeByte(0x00); 
-      } while(nDWords--); 
-
       pixels.stepDithering();
       pixels.advanceData();
     }
+
+    int nDWords = (pixels.size()/32); 
+    do { 
+        writeByte(0xFF); 
+        writeByte(0x00); 
+        writeByte(0x00); 
+        writeByte(0x00); 
+    } while(nDWords--); 
+
   }
 
 
