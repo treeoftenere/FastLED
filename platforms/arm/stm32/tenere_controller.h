@@ -64,13 +64,13 @@ public:
 
       int i;
       for(i = 0; i < 8; i++) { b.bytes[i] = pixels.loadAndScale0(i); }
-      transpose8x1(b.bytes,b2.bytes);
+      transpose8x1_MSB(b.bytes,b2.bytes);
       writeByte(b2);
       for(i = 0; i < 8; i++) { b.bytes[i] = pixels.loadAndScale1(i); }
-      transpose8x1(b.bytes,b2.bytes);
+      transpose8x1_MSB(b.bytes,b2.bytes);
       writeByte(b2);
       for(i = 0; i < 8; i++) { b.bytes[i] = pixels.loadAndScale2(i); }
-      transpose8x1(b.bytes,b2.bytes);
+      transpose8x1_MSB(b.bytes,b2.bytes);
       writeByte(b2);
 
       pixels.stepDithering();
@@ -124,13 +124,13 @@ public:
 
   // Writes transposed data to all lanes
   __attribute__((always_inline)) inline static void writeByte(Lines b) {
-    data_t d;    
-      for(int i = 0; i < 8; i++) {
+    uint32_t d;    
+      for(int i = 0; i < 8 ; i++) {
         // This makes so many assumptions on for tenere rev c. Oh well.
         d = *FastPin<CLOCK_PIN>::port();
         d &= ~REVC_PORT_MASK;
         d |= (b.bytes[i] & 31) << 3;
-        d |= (b.bytes[i] & 224) << 13;
+        d |= ((uint32_t)(b.bytes[i] & 224)) << 13;
         FastPin<CLOCK_PIN>::set(d);
         FastPin<CLOCK_PIN>::hi(); CLOCK_HI_DELAY;
         FastPin<CLOCK_PIN>::lo(); CLOCK_LO_DELAY;
